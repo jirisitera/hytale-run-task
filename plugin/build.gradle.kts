@@ -22,7 +22,7 @@ java {
     }
 }
 gradlePlugin {
-    website.set("https://www.japicraft.com/")
+    website.set("https://github.com/jirisitera/hytale-run-task")
     vcsUrl.set("https://github.com/jirisitera/hytale-run-task")
     plugins {
         create("HytaleRunTask") {
