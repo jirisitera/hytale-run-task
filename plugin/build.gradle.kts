@@ -26,7 +26,6 @@ gradlePlugin {
     vcsUrl.set("https://github.com/jirisitera/hytale-run-task")
     plugins {
         create("HytaleRunTask") {
-            group = "hytale"
             id = "com.japicraft.hytale"
             implementationClass = "com.japicraft.HytalePlugin"
             displayName = "Hytale Run Task"
