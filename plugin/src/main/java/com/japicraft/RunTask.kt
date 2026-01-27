@@ -24,8 +24,8 @@ abstract class RunTask : JavaExec() {
                 from(project.file(buildLocation.get()))
                 into(modsDir.asFile)
             }
-            executable = org.gradle.internal.jvm.Jvm.current().javaExecutable.absolutePath
-            workingDir = runDir.asFile
+            setExecutable(org.gradle.internal.jvm.Jvm.current().javaExecutable.absolutePath)
+            setWorkingDir(runDir.asFile)
             jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
             val serverJar = runDir.file("Server/HytaleServer.jar").asFile.absolutePath
             args("-jar", serverJar, "--assets", "Assets.zip", "--disable-sentry")
