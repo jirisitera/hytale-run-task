@@ -4,7 +4,7 @@ plugins {
     id("com.gradle.plugin-publish") version "2.0.0"
 }
 group = "com.japicraft"
-version = "1.1"
+version = "1.2"
 repositories {
     mavenCentral()
 }
@@ -26,6 +26,7 @@ gradlePlugin {
     vcsUrl.set("https://github.com/jirisitera/hytale-run-task")
     plugins {
         create("HytaleRunTask") {
+            group = "hytale"
             id = "com.japicraft.hytale"
             implementationClass = "com.japicraft.HytalePlugin"
             displayName = "Hytale Run Task"

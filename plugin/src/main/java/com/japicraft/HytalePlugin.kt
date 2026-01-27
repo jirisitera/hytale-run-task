@@ -14,8 +14,8 @@ class HytalePlugin : Plugin<Project> {
             serverName.convention("server.zip")
         }
         project.tasks.register("updateServer", UpdateTask::class.java) {
-            project.group = "hytale"
-            project.description = "Updates the Hytale development server."
+            group = "hytale"
+            description = "Updates the Hytale development server."
             downloaderUrl.set(updateExt.downloaderUrl)
             runPath.set(updateExt.runPath)
             downloaderPath.set(updateExt.downloaderPath)
@@ -25,14 +25,14 @@ class HytalePlugin : Plugin<Project> {
         }
         val runExt = project.extensions.create("runServer", RunTaskExtension::class.java).apply {
             runPath.convention("run")
-            runPath.convention("shadowJar")
-            runPath.convention("build/libs/StarterHytaleMod.jar")
+            buildTask.convention("shadowJar")
+            buildLocation.convention("build/libs/StarterHytaleMod.jar")
             xmx.convention("4G")
             xms.convention("4G")
         }
         project.tasks.register("runServer", RunTask::class.java) {
-            project.group = "hytale"
-            project.description = "Runs the Hytale development server."
+            group = "hytale"
+            description = "Runs the Hytale development server."
             runPath.set(runExt.runPath)
             buildTask.set(runExt.buildTask)
             buildLocation.set(runExt.buildLocation)

@@ -25,25 +25,21 @@ abstract class UpdateTask : Exec() {
         val downloaderZip = downloaderDir.file(downloaderName.get())
         val downloaderExe = downloaderDir.file(usedDownloader.get())
         val serverZip = downloaderDir.file(serverName.get())
-        doFirst {
-            if (!downloaderDir.asFile.exists()) downloaderDir.asFile.mkdirs()
-            logger.lifecycle("[UPDATER] Fetching Hytale Downloader tool...")
-            downloaderZip.asFile.writeBytes(project.uri(downloaderUrl.get()).toURL().readBytes())
-            logger.lifecycle("[UPDATER] Unpacking Hytale Downloader tool...")
-            project.copy {
-                from(project.zipTree(downloaderZip))
-                into(downloaderDir)
-            }
-            logger.lifecycle("[UPDATER] Downloading Hytale server...")
-            commandLine(downloaderExe, "-download-path", serverZip)
+        if (!downloaderDir.asFile.exists()) downloaderDir.asFile.mkdirs()
+        logger.lifecycle("[UPDATER] Fetching Hytale Downloader tool...")
+        downloaderZip.asFile.writeBytes(project.uri(downloaderUrl.get()).toURL().readBytes())
+        logger.lifecycle("[UPDATER] Unpacking Hytale Downloader tool...")
+        project.copy {
+            from(project.zipTree(downloaderZip))
+            into(downloaderDir)
         }
-        doLast {
-            logger.lifecycle("[UPDATER] Unpacking Hytale server...")
-            project.copy {
-                from(project.zipTree(serverZip))
-                into(runDir)
-            }
-            logger.lifecycle("[UPDATER] Hytale server updated successfully!")
+        logger.lifecycle("[UPDATER] Downloading Hytale server...")
+        commandLine(downloaderExe, "-download-path", serverZip)
+        logger.lifecycle("[UPDATER] Unpacking Hytale server...")
+        project.copy {
+            from(project.zipTree(serverZip))
+            into(runDir)
         }
+        logger.lifecycle("[UPDATER] Hytale server updated successfully!")
     }
 }

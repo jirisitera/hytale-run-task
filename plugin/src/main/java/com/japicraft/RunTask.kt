@@ -3,7 +3,6 @@ package com.japicraft
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.JavaExec
-import org.gradle.api.tasks.TaskAction
 
 abstract class RunTask : JavaExec() {
     @get:Input
@@ -16,22 +15,24 @@ abstract class RunTask : JavaExec() {
     abstract val xmx: Property<String>
     @get:Input
     abstract val xms: Property<String>
-    @TaskAction
-    fun run() {
-        dependsOn(buildTask)
-        val runDir = project.layout.projectDirectory.dir(runPath.get())
-        val modsDir = runDir.dir("mods")
+    init {
         doFirst {
+            val runDir = project.layout.projectDirectory.dir(runPath.get())
+            val modsDir = runDir.dir("mods")
             modsDir.asFile.mkdirs()
             project.copy {
-                from(buildLocation)
-                into(modsDir)
+                from(project.file(buildLocation.get()))
+                into(modsDir.asFile)
             }
+            executable = org.gradle.internal.jvm.Jvm.current().javaExecutable.absolutePath
+            workingDir = runDir.asFile
+            jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
+            val serverJar = runDir.file("Server/HytaleServer.jar").asFile.absolutePath
+            args("-jar", serverJar, "--assets", "Assets.zip", "--disable-sentry")
         }
-        workingDir = runDir.asFile
-        classpath = project.files("Server/HytaleServer.jar")
-        standardInput = System.`in`
-        jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
-        args("--assets", "Assets.zip", "--disable-sentry")
+    }
+    override fun getDependsOn(): MutableSet<Any> {
+        super.getDependsOn().add(buildTask.get())
+        return super.getDependsOn()
     }
 }
