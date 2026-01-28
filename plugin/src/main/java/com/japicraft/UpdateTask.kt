@@ -23,9 +23,10 @@ abstract class UpdateTask : Exec() {
         val runDir = project.layout.projectDirectory.dir(runPath.get())
         val downloaderDir = runDir.dir(downloaderPath.get())
         val downloaderZip = downloaderDir.file(downloaderName.get())
-        val downloaderExe = downloaderDir.file(usedDownloader.get())
         val serverZip = downloaderDir.file(serverName.get())
-        if (!downloaderDir.asFile.exists()) downloaderDir.asFile.mkdirs()
+        if (!downloaderDir.asFile.exists()) {
+            downloaderDir.asFile.mkdirs()
+        }
         logger.lifecycle("[UPDATER] Fetching Hytale Downloader tool...")
         downloaderZip.asFile.writeBytes(project.uri(downloaderUrl.get()).toURL().readBytes())
         logger.lifecycle("[UPDATER] Unpacking Hytale Downloader tool...")
@@ -34,7 +35,8 @@ abstract class UpdateTask : Exec() {
             into(downloaderDir)
         }
         logger.lifecycle("[UPDATER] Downloading Hytale server...")
-        commandLine(downloaderExe, "-download-path", serverZip)
+        commandLine(downloaderDir.file(usedDownloader.get()), "-download-path", serverZip)
+        exec()
         logger.lifecycle("[UPDATER] Unpacking Hytale server...")
         project.copy {
             from(project.zipTree(serverZip))
