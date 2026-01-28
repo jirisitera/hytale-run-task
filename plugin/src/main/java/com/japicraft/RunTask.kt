@@ -24,11 +24,12 @@ abstract class RunTask : JavaExec() {
                 from(project.file(buildLocation.get()))
                 into(modsDir.asFile)
             }
-            setExecutable(org.gradle.internal.jvm.Jvm.current().javaExecutable.absolutePath)
             setWorkingDir(runDir.asFile)
             jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
             val serverJar = runDir.file("Server/HytaleServer.jar").asFile.absolutePath
-            args("-jar", serverJar, "--assets", "Assets.zip", "--disable-sentry")
+            mainClass.set("com.hypixel.hytale.Main")
+            classpath = project.files(serverJar)
+            args("--assets", "Assets.zip", "--disable-sentry")
         }
     }
     override fun getDependsOn(): MutableSet<Any> {

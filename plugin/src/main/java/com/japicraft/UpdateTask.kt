@@ -3,7 +3,6 @@ package com.japicraft
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Exec
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.TaskAction
 
 abstract class UpdateTask : Exec() {
     @get:Input
@@ -18,8 +17,7 @@ abstract class UpdateTask : Exec() {
     abstract val usedDownloader: Property<String>
     @get:Input
     abstract val serverName: Property<String>
-    @TaskAction
-    fun run() {
+    override fun exec() {
         val runDir = project.layout.projectDirectory.dir(runPath.get())
         val downloaderDir = runDir.dir(downloaderPath.get())
         val downloaderZip = downloaderDir.file(downloaderName.get())
@@ -36,7 +34,7 @@ abstract class UpdateTask : Exec() {
         }
         logger.lifecycle("[UPDATER] Downloading Hytale server...")
         commandLine(downloaderDir.file(usedDownloader.get()), "-download-path", serverZip)
-        exec()
+        super.exec()
         logger.lifecycle("[UPDATER] Unpacking Hytale server...")
         project.copy {
             from(project.zipTree(serverZip))
