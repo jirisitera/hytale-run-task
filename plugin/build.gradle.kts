@@ -4,22 +4,12 @@ plugins {
     id("com.gradle.plugin-publish") version "2.0.0"
 }
 group = "com.japicraft"
-version = "1.3"
+version = "1.4"
 repositories {
     mavenCentral()
 }
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-}
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    }
-}
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    }
 }
 gradlePlugin {
     website.set("https://github.com/jirisitera/hytale-run-task")
