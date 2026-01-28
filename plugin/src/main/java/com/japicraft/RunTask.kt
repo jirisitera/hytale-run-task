@@ -16,10 +16,9 @@ abstract class RunTask : JavaExec() {
     @get:Input
     abstract val xms: Property<String>
     init {
-        val runDir = project.layout.projectDirectory.dir(runPath.get())
-        classpath = project.files(runDir.file("Server/HytaleServer.jar").asFile.absolutePath)
         mainClass.set("com.hypixel.hytale.Main")
         doFirst {
+            val runDir = project.layout.projectDirectory.dir(runPath.get())
             val modsDir = runDir.dir("mods")
             if (!modsDir.asFile.exists()) {
                 modsDir.asFile.mkdirs()

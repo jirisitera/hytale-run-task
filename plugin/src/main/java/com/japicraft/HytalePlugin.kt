@@ -38,6 +38,9 @@ class HytalePlugin : Plugin<Project> {
             buildLocation.set(runExt.buildLocation)
             xmx.set(runExt.xmx)
             xms.set(runExt.xms)
+            classpath = project.files(
+                project.layout.projectDirectory.dir(runPath.get()).file("Server/HytaleServer.jar").asFile.absolutePath
+            )
         }
     }
 }
