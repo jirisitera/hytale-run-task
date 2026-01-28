@@ -27,7 +27,6 @@ abstract class RunTask : JavaExec() {
                 from(project.file(buildLocation.get()))
                 into(modsDir.asFile)
             }
-            setWorkingDir(runDir.asFile)
             jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
             args("--assets", "Assets.zip", "--disable-sentry")
         }
