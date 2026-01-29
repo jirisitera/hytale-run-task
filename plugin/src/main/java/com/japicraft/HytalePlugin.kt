@@ -39,9 +39,7 @@ class HytalePlugin : Plugin<Project> {
             xmx.set(runExt.xmx)
             xms.set(runExt.xms)
             mainClass.set("com.hypixel.hytale.Main")
-            classpath = project.files(
-                project.layout.projectDirectory.dir(runPath.get()).file("Server/HytaleServer.jar").asFile.absolutePath
-            )
+            classpath = project.files(project.layout.projectDirectory.dir(runPath.get()).file("Server/HytaleServer.jar").asFile.absolutePath)
             workingDir = project.layout.projectDirectory.dir(runPath.get()).asFile
             dependsOn(buildTask.get())
         }
