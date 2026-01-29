@@ -25,21 +25,21 @@ abstract class UpdateTask : Exec() {
         if (!downloaderDir.asFile.exists()) {
             downloaderDir.asFile.mkdirs()
         }
-        logger.lifecycle("[UPDATER] Fetching Hytale Downloader tool...")
+        logger.lifecycle("[Updater] Fetching Hytale Downloader tool...")
         downloaderZip.asFile.writeBytes(project.uri(downloaderUrl.get()).toURL().readBytes())
-        logger.lifecycle("[UPDATER] Unpacking Hytale Downloader tool...")
+        logger.lifecycle("[Updater] Unpacking Hytale Downloader tool...")
         project.copy {
             from(project.zipTree(downloaderZip))
             into(downloaderDir)
         }
-        logger.lifecycle("[UPDATER] Downloading Hytale server...")
+        logger.lifecycle("[Updater] Downloading Hytale server...")
         commandLine(downloaderDir.file(usedDownloader.get()), "-download-path", serverZip)
         super.exec()
-        logger.lifecycle("[UPDATER] Unpacking Hytale server...")
+        logger.lifecycle("[Updater] Unpacking Hytale server...")
         project.copy {
             from(project.zipTree(serverZip))
             into(runDir)
         }
-        logger.lifecycle("[UPDATER] Hytale server updated successfully!")
+        logger.lifecycle("[Updater] Hytale server updated successfully!")
     }
 }
