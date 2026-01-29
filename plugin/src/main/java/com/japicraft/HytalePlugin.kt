@@ -43,6 +43,7 @@ class HytalePlugin : Plugin<Project> {
                 project.layout.projectDirectory.dir(runPath.get()).file("Server/HytaleServer.jar").asFile.absolutePath
             )
             workingDir = project.layout.projectDirectory.dir(runPath.get()).asFile
+            dependsOn(buildTask.get())
         }
     }
 }

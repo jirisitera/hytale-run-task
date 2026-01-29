@@ -15,13 +15,6 @@ abstract class RunTask : JavaExec() {
     abstract val xmx: Property<String>
     @get:Input
     abstract val xms: Property<String>
-    init {
-        buildTask.finalizeValueOnRead()
-        buildTask.disallowChanges()
-        buildTask.orNull?.let {
-            dependsOn(it)
-        }
-    }
     override fun exec() {
         val runDir = project.layout.projectDirectory.dir(runPath.get())
         val modsDir = runDir.dir("Server/mods")
