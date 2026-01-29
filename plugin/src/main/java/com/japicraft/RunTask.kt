@@ -27,8 +27,8 @@ abstract class RunTask : JavaExec() {
             into(modsDir)
         }
         logger.lifecycle("[Launcher] Booting up server...")
-        jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
-        args("--assets", runPath.get() + "/Assets.zip", "--disable-sentry")
+        jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}", "-XX:AOTCache=Server/HytaleServer.aot")
+        args("--assets", "./Assets.zip", "--disable-sentry")
         super.exec()
     }
 }
