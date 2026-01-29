@@ -18,10 +18,8 @@ abstract class RunTask : JavaExec() {
     init {
         buildTask.finalizeValueOnRead()
         buildTask.disallowChanges()
-        project.afterEvaluate {
-            buildTask.orNull?.let {
-                dependsOn(it)
-            }
+        buildTask.orNull?.let {
+            dependsOn(it)
         }
     }
     override fun exec() {
