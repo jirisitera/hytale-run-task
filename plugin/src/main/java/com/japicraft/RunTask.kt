@@ -29,6 +29,7 @@ abstract class RunTask : JavaExec() {
         logger.lifecycle("[Launcher] Booting up server...")
         jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}", "-XX:AOTCache=Server/HytaleServer.aot")
         args("--assets", "./Assets.zip", "--disable-sentry")
+        standardInput = System.`in`
         super.exec()
     }
 }
