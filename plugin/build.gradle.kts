@@ -12,7 +12,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 }
 gradlePlugin {
-    website.set("https://github.com/jirisitera/hytale-run-task")
+    website.set("https://japicraft.com")
     vcsUrl.set("https://github.com/jirisitera/hytale-run-task")
     plugins {
         create("HytaleRunTask") {
