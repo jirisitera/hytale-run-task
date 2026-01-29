@@ -16,23 +16,28 @@ abstract class RunTask : JavaExec() {
     @get:Input
     abstract val xms: Property<String>
     init {
-        mainClass.set("com.hypixel.hytale.Main")
-        doFirst {
-            val runDir = project.layout.projectDirectory.dir(runPath.get())
-            val modsDir = runDir.dir("mods")
-            if (!modsDir.asFile.exists()) {
-                modsDir.asFile.mkdirs()
+        buildTask.finalizeValueOnRead()
+        buildTask.disallowChanges()
+        project.afterEvaluate {
+            buildTask.orNull?.let {
+                dependsOn(it)
             }
-            project.copy {
-                from(project.file(buildLocation.get()))
-                into(modsDir.asFile)
-            }
-            jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
-            args("--assets", "Assets.zip", "--disable-sentry")
         }
     }
-    override fun getDependsOn(): MutableSet<Any> {
-        super.getDependsOn().add(buildTask.get())
-        return super.getDependsOn()
+    override fun exec() {
+        val runDir = project.layout.projectDirectory.dir(runPath.get())
+        val modsDir = runDir.dir("Server/mods")
+        if (!modsDir.asFile.exists()) {
+            modsDir.asFile.mkdirs()
+        }
+        logger.lifecycle("[Launcher] Copying custom mod...")
+        project.copy {
+            from(buildLocation.get())
+            into(modsDir)
+        }
+        logger.lifecycle("[Launcher] Booting up server...")
+        jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
+        args("--assets", runPath.get() + "/Assets.zip", "--disable-sentry")
+        super.exec()
     }
 }
