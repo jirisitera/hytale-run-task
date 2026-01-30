@@ -16,8 +16,7 @@ abstract class RunTask : JavaExec() {
     @get:Input
     abstract val xms: Property<String>
     override fun exec() {
-        val runDir = project.layout.projectDirectory.dir(runPath.get())
-        val modsDir = runDir.dir("Server/mods")
+        val modsDir = project.layout.projectDirectory.dir(runPath.get() + "Server/mods")
         if (!modsDir.asFile.exists()) {
             modsDir.asFile.mkdirs()
         }
@@ -27,9 +26,8 @@ abstract class RunTask : JavaExec() {
             into(modsDir)
         }
         logger.lifecycle("[Launcher] Booting up server...")
-        jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}", "-XX:AOTCache=Server/HytaleServer.aot")
-        args("--assets", "./Assets.zip", "--disable-sentry")
-        standardInput = System.`in`
+        jvmArgs("-Xmx${xmx.get()}", "-Xms${xms.get()}")
+        args("--assets", "../Assets.zip", "--disable-sentry")
         super.exec()
     }
 }
