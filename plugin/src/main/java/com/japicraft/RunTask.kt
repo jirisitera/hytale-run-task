@@ -16,7 +16,7 @@ abstract class RunTask : JavaExec() {
     @get:Input
     abstract val xms: Property<String>
     override fun exec() {
-        val modsDir = project.layout.projectDirectory.dir(runPath.get() + "Server/mods")
+        val modsDir = project.layout.projectDirectory.dir(runPath.get()).dir("Server").dir("mods")
         if (!modsDir.asFile.exists()) {
             modsDir.asFile.mkdirs()
         }

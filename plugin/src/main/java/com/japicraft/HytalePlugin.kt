@@ -38,7 +38,7 @@ class HytalePlugin : Plugin<Project> {
             buildLocation.set(runExt.buildLocation)
             xmx.set(runExt.xmx)
             xms.set(runExt.xms)
-            val serverDir = project.layout.projectDirectory.dir(runPath.get() + "Server")
+            val serverDir = project.layout.projectDirectory.dir(runPath.get()).dir("Server")
             classpath = project.files(serverDir.file("HytaleServer.jar").asFile.absolutePath)
             workingDir = serverDir.asFile
             standardInput = System.`in`
