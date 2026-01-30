@@ -4,7 +4,7 @@ plugins {
     id("com.gradle.plugin-publish") version "2.0.0"
 }
 group = "com.japicraft"
-version = "2.1"
+version = "2.2"
 repositories {
     mavenCentral()
 }
